@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Bipède : Robotech et le FabLab de Sorbonne Université construisent les jambes d'un robot humanoïde. Projet présenté à la CVEC.">
+<title>Bipède, un robot qui apprend à marcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..700&display=swap">
+<style>
+/* Layout : colonne alignée à gauche sur une grille de 12 ; l'accueil est une planche de chronophotographie (8 images de la marche, 0,125 s d'écart), à la manière de Marey ; le reste est sobre, en prose et en tableaux. */
+:root{
+  --paper:#f4f6f6; --ink:#1a2329; --slate:#5d6870; --line:#d3d9dc; --blue:#2f55a4; --white:#ffffff;
+  --sans:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--sans);margin:0}
+a{color:var(--blue);text-underline-offset:3px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1160px;margin:0 auto}
+h1,h2,h3{font-family:var(--sans);text-wrap:balance;margin:0}
+h1{font-size:clamp(40px,6.6vw,84px);line-height:1;font-weight:600;font-stretch:112%;letter-spacing:-.025em;max-width:13ch}
+h2{font-size:clamp(28px,3.4vw,40px);line-height:1.1;font-weight:600;font-stretch:108%;letter-spacing:-.015em;margin-bottom:18px}
+h3{font-size:19px;line-height:1.3;font-weight:600;margin-bottom:6px}
+p{margin:0 0 14px;max-width:62ch}
+.slate{color:var(--slate)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* En-tête */
+header.top{padding-block:22px}
+header.top .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;font-stretch:125%;font-size:18px;letter-spacing:.01em;text-decoration:none;color:var(--ink)}
+header.top nav{display:flex;gap:22px;flex-wrap:wrap;font-size:15px}
+header.top nav a{color:var(--slate);text-decoration:none}
+header.top nav a:hover{color:var(--ink)}
+@media (max-width:700px){header.top nav{display:none}}
+
+/* Accueil */
+.hero{padding-block:clamp(40px,7vw,90px) 28px}
+.hero .wrap{display:grid;grid-template-columns:7fr 5fr;gap:40px;align-items:end}
+.hero .wrap>*{min-width:0}
+.hero .lede{font-size:clamp(17px,1.6vw,20px);color:var(--slate);margin:0}
+@media (max-width:820px){.hero .wrap{grid-template-columns:1fr;gap:22px}}
+.plate{padding-block:0 18px}
+.plate .strip{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;background:var(--white);padding:4px;border:1px solid var(--line)}
+.plate figure{margin:0;min-width:0}
+.plate .img{aspect-ratio:260/451;background:url(v/chrono.jpg) no-repeat;background-size:800% 100%;max-width:100%}
+.plate figcaption{font-size:12px;color:var(--slate);padding:6px 2px 2px;font-variant-numeric:tabular-nums}
+.plate .legend{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--slate);margin-top:12px}
+@media (max-width:700px){.plate .strip{grid-template-columns:repeat(4,1fr)}}
+@media (prefers-reduced-motion:no-preference){
+  .plate figure{animation:expo .5s ease-out both}
+  @keyframes expo{from{opacity:.2}to{opacity:1}}
+}
+
+section{padding-block:clamp(56px,8vw,100px);border-top:1px solid var(--line)}
+.cols{display:grid;grid-template-columns:4fr 8fr;gap:40px}
+.cols>*{min-width:0}
+@media (max-width:820px){.cols{grid-template-columns:1fr;gap:16px}}
+
+/* Résultats : vidéo principale et choix */
+.viewer{display:grid;grid-template-columns:4fr 8fr;gap:40px;align-items:start}
+.viewer>*{min-width:0}
+.choices{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.choices button{all:unset;cursor:pointer;display:block;padding:16px 0;border-bottom:1px solid var(--line)}
+.choices button b{display:block;font-size:19px;font-weight:600}
+.choices button span{display:block;color:var(--slate);font-size:15px;margin-top:2px}
+.choices button[aria-pressed="true"] b{color:var(--blue)}
+.choices button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.screen{background:#20272c;border:1px solid var(--line);aspect-ratio:16/9;max-width:100%;position:relative;overflow:hidden}
+.screen video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.note{font-size:14px;color:var(--slate);margin-top:10px}
+@media (max-width:820px){.viewer{grid-template-columns:1fr;gap:20px}.screen{order:-1}}
+
+/* Fiche technique et tableaux */
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+td,th{text-align:left;padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top;font-weight:400}
+td:first-child{color:var(--slate);width:42%;padding-right:16px}
+td.n,th.n{text-align:right}
+tr.total td{font-weight:600;color:var(--ink);border-bottom:2px solid var(--ink)}
+
+/* Sorbonne Université */
+.gains{display:grid;grid-template-columns:1fr 1fr;gap:28px 40px;margin-top:8px}
+.gains>div{min-width:0;padding-top:14px;border-top:2px solid var(--ink)}
+@media (max-width:700px){.gains{grid-template-columns:1fr}}
+.slot{background:var(--white);border:1px dashed #b9c1c6;color:var(--slate);font-size:14px;display:flex;align-items:flex-end;padding:14px;max-width:100%}
+.slot.wide{aspect-ratio:21/9;margin-top:36px}
+.logos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.logos .slot{height:80px;align-items:center;justify-content:center;text-align:center}
+@media (max-width:700px){.logos{grid-template-columns:1fr 1fr}}
+
+/* Équipe */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.team .slot{aspect-ratio:4/5;margin-bottom:12px}
+@media (max-width:700px){.team{grid-template-columns:1fr}.team .slot{aspect-ratio:16/10}}
+
+/* Calendrier */
+.when{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.when li{padding:14px 16px 0 0;border-top:2px solid var(--line);min-width:0}
+.when li.done{border-top-color:var(--ink)}
+.when .d{font-size:14px;color:var(--slate);font-variant-numeric:tabular-nums}
+@media (max-width:820px){.when{grid-template-columns:1fr;gap:14px}}
+
+footer{border-top:1px solid var(--line);padding-block:36px;font-size:15px;color:var(--slate)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brandrow{display:flex;align-items:center;gap:18px}
+.logo-su{height:34px;width:auto;display:block}
+footer .logo-su{height:40px}
+.logo-rt{height:42px;width:auto;display:block}
+footer .logo-rt{height:52px}
+footer .wrap>img+img{margin-left:-4px}
+.art{margin:36px 0 0}
+.art img{display:block;width:100%;max-width:100%;aspect-ratio:21/9;object-fit:cover;border:1px solid var(--line)}
+.art figcaption{font-size:14px;color:var(--slate);margin-top:10px}
+.face{display:block;width:100%;max-width:100%;aspect-ratio:1/1;object-fit:cover;margin-bottom:12px;filter:grayscale(.15)}
+a.person:hover .face{filter:none}
+a.person{color:inherit;text-decoration:none;display:block}
+a.person:hover h3{color:var(--blue)}
+.ask{background:var(--ink);color:var(--paper);padding-block:clamp(48px,7vw,88px)}
+.ask .big{font-size:clamp(26px,3.6vw,44px);line-height:1.15;font-weight:600;font-stretch:108%;letter-spacing:-.015em;max-width:26ch;margin:0 0 36px;text-wrap:balance}
+.ask .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.ask .facts>div{min-width:0;border-top:2px solid rgba(244,246,246,.35);padding-top:14px}
+.ask .facts b{display:block;font-size:18px;margin-bottom:6px}
+.ask .facts span{color:rgba(244,246,246,.75)}
+.ask .go{display:inline-block;margin-top:32px;color:var(--paper);font-weight:600}
+@media (max-width:760px){.ask .facts{grid-template-columns:1fr}}
+.mock{background:var(--ink);color:var(--paper);font-size:13px;text-align:center;padding-block:6px}
+</style>
+</head>
+<body>
+
+
+<header class="top gut">
+  <div class="wrap">
+    <div class="brandrow"><a class="brand" href="#">Bipède</a><img class="logo-su" src="v/logo-su.png" alt="Sorbonne Université"><img class="logo-rt" src="v/logo-robotech.png" alt="Robotech Sorbonne"></div>
+    <nav aria-label="Sections">
+      <a href="#resultats">Résultats</a>
+      <a href="#projet">Le robot</a>
+      <a href="#sorbonne">Pour Sorbonne Université</a>
+      <a href="#equipe">Équipe</a>
+      <a href="#budget">Budget</a>
+      <a href="#voir">Venir le voir</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero gut">
+  <div class="wrap">
+    <h1>Avant son premier pas, il est tombé des milliers de fois</h1>
+    <p class="lede">Bipède, ce sont les jambes d'un robot humanoïde : 12 moteurs, 80 cm, 17 kg. Robotech, l'association de robotique de Sorbonne Université, l'a fait marcher en simulation. Il reste à le construire avec le FabLab de l'université, et cette étape n'aura lieu que si la CVEC la finance.</p>
+  </div>
+</div>
+
+<div class="plate gut">
+  <div class="wrap">
+    <div class="strip" role="img" aria-label="Huit images successives du robot en train de marcher, à 0,125 seconde d'intervalle">
+      <figure style="animation-delay:0s"><div class="img" style="background-position:0% 0"></div><figcaption>0,000 s</figcaption></figure>
+      <figure style="animation-delay:.08s"><div class="img" style="background-position:14.2857% 0"></div><figcaption>0,125 s</figcaption></figure>
+      <figure style="animation-delay:.16s"><div class="img" style="background-position:28.5714% 0"></div><figcaption>0,250 s</figcaption></figure>
+      <figure style="animation-delay:.24s"><div class="img" style="background-position:42.8571% 0"></div><figcaption>0,375 s</figcaption></figure>
+      <figure style="animation-delay:.32s"><div class="img" style="background-position:57.1429% 0"></div><figcaption>0,500 s</figcaption></figure>
+      <figure style="animation-delay:.40s"><div class="img" style="background-position:71.4286% 0"></div><figcaption>0,625 s</figcaption></figure>
+      <figure style="animation-delay:.48s"><div class="img" style="background-position:85.7143% 0"></div><figcaption>0,750 s</figcaption></figure>
+      <figure style="animation-delay:.56s"><div class="img" style="background-position:100% 0"></div><figcaption>0,875 s</figcaption></figure>
+    </div>
+    <div class="legend"><span>Marche tout droit à 0,5 m/s, en simulation, essai 60 du 18 octobre 2026.</span><span>Images non retouchées.</span></div>
+  </div>
+</div>
+
+<div class="ask gut">
+  <div class="wrap">
+    <p class="big">Aujourd'hui, ce robot n'existe que dans un ordinateur. Sans la subvention CVEC, il y restera.</p>
+    <div class="facts">
+      <div><b>Déjà fait</b><span>Simulation, choix des moteurs, marche apprise. Payé sur nos fonds propres.</span></div>
+      <div><b>Ce qui manque</b><span>6 326 € pour les moteurs, l'électronique, la batterie et l'impression.</span></div>
+      <div><b>Ce que la CVEC rend possible</b><span>Un robot humanoïde construit par des étudiants au FabLab de Sorbonne Université, et qui y reste.</span></div>
+    </div>
+    <a class="go" href="#budget">Voir le budget détaillé</a>
+  </div>
+</div>
+
+<section id="resultats" class="gut">
+  <div class="wrap">
+    <h2>Une semaine d'entraînement plus tard</h2>
+    <div class="viewer">
+      <div class="choices" id="choices">
+        <button type="button" aria-pressed="true" data-src="v/fond.mp4"><b>Marcher droit</b><span>Ses deux pieds font enfin des pas de même longueur. Il a fallu 58 essais pour y arriver.</span></button>
+        <button type="button" aria-pressed="false" data-src="v/poussees.mp4"><b>Encaisser une poussée</b><span>On le bouscule à 60 N, de face ou de côté, et il reste debout. L'objectif est 80 N.</span></button>
+        <button type="button" aria-pressed="false" data-src="v/manette.mp4"><b>Obéir à la manette</b><span>Avancer, se décaler, faire demi-tour sur place : un seul réseau de neurones fait tout.</span></button>
+        <button type="button" aria-pressed="false" data-src="v/progression.mp4"><b>Progresser</b><span>Du premier pas hésitant au pas régulier, en quatre jours.</span></button>
+      </div>
+      <div>
+        <div class="screen"><video id="screen" src="v/fond.mp4" poster="v/hero.jpg" autoplay muted loop playsinline></video></div>
+        <p class="note">Ce sont des images brutes de nos simulations MuJoCo, sans montage ni effet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projet" class="gut">
+  <div class="wrap cols">
+    <div>
+      <h2>Ce qu'on va construire</h2>
+      <p class="slate">Nous partons des jambes du K-Bot, un humanoïde open source de K-Scale Labs, et nous ajoutons à chaque cheville un axe qui lui manquait : le roulis, pour se rattraper quand on le pousse de côté. Les moteurs et l'architecture des jambes sont ceux d'un robot qui marche déjà, ce qui nous évite de tout réinventer.</p>
+    </div>
+    <div>
+      <table aria-label="Fiche technique">
+        <tr><td>Objectif 1</td><td>Rester stable debout</td></tr>
+        <tr><td>Objectif 2</td><td>Marcher en suivant une manette</td></tr>
+        <tr><td>Objectif 3</td><td>Encaisser une poussée de 80 N sans tomber</td></tr>
+        <tr><td>Taille et masse</td><td>Environ 80 cm, 17 kg</td></tr>
+        <tr><td>Axes par jambe</td><td>5 en simulation aujourd'hui, 6 sur le robot fabriqué</td></tr>
+        <tr><td>Moteurs</td><td>12 moteurs RobStride (RS02, RS03, RS04, RS05)</td></tr>
+        <tr><td>Structure</td><td>Pièces imprimées en PA6-CF au FabLab</td></tr>
+        <tr><td>Calcul embarqué</td><td>NVIDIA Jetson</td></tr>
+        <tr><td>Apprentissage</td><td>Par renforcement (PPO), 4 096 robots simulés en parallèle</td></tr>
+        <tr><td>Fréquence de décision</td><td>50 fois par seconde</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="sorbonne" class="gut">
+  <div class="wrap">
+    <div class="cols">
+      <h2>Si la CVEC le finance, voici ce qui restera à Sorbonne Université</h2>
+      <div class="gains">
+        <div><h3>Une base pour les suivants</h3><p class="slate">Le robot reste au FabLab. Les promotions suivantes partiront de jambes qui tiennent debout pour lui ajouter un buste, des bras ou de l'autonomie.</p></div>
+        <div><h3>La preuve par l'impression</h3><p class="slate">Les pièces qui portent le robot sortent des imprimantes du FabLab, en nylon chargé de fibre de carbone (PA6-CF), et pas d'un atelier d'usinage.</p></div>
+        <div><h3>Tout est écrit</h3><p class="slate">Plans, code, liste des pièces et guide de reprise, en accès libre sur GitHub et sur le wiki du FabLab. Nous y notons aussi chaque essai raté et la raison de l'échec.</p></div>
+        <div><h3>Un humanoïde fait ici</h3><p class="slate">Conçu, entraîné et fabriqué par des étudiants, il représentera la robotique humanoïde de Sorbonne Université, et Robotech et le FabLab pourront s'en servir pour leurs ateliers.</p></div>
+      </div>
+    </div>
+    <figure class="art"><img src="v/fablab.jpg" alt="Vue d'artiste du robot debout dans un FabLab" loading="lazy"><figcaption>Vue d'artiste : le robot une fois construit, au FabLab.</figcaption></figure>
+  </div>
+</section>
+
+<section id="equipe" class="gut">
+  <div class="wrap">
+    <h2>Qui on est</h2>
+    <p class="slate">Trois élèves ingénieurs en dernière année de la spécialité robotique de Polytech Sorbonne, membres de Robotech, l'association de robotique de Sorbonne Université.</p>
+    <div class="team" style="margin-top:28px">
+      <a class="person" href="https://matthieu-vinet.fr"><img class="face" src="v/matthieu.jpg" alt="Matthieu Vinet" loading="lazy"><h3>Matthieu Vinet</h3><p class="slate">Rôle à préciser</p></a>
+      <a class="person" href="#equipe"><img class="face" src="v/maxime.jpg" alt="Maxime Bondil" loading="lazy"><h3>Maxime Bondil</h3><p class="slate">Rôle à préciser, lien LinkedIn à ajouter</p></a>
+      <a class="person" href="#equipe"><img class="face" src="v/nicolas.jpg" alt="Nicolas Durand" loading="lazy"><h3>Nicolas Durand</h3><p class="slate">Rôle à préciser, lien LinkedIn à ajouter</p></a>
+    </div>
+  </div>
+</section>
+
+<section id="budget" class="gut">
+  <div class="wrap cols">
+    <div>
+      <h2>Sans la CVEC, pas de robot</h2>
+      <p class="slate">Nous avons payé la simulation nous-mêmes. La fabrication, nous ne pouvons pas la financer seuls : sans la CVEC, le robot reste dans l'ordinateur.</p>
+      <p class="slate">Près de la moitié du budget, 3 052 €, va aux douze moteurs, parce qu'ils ne s'impriment pas. Le reste couvre l'électronique de commande et de sécurité, la batterie et la matière d'impression.</p>
+    </div>
+    <table aria-label="Budget">
+      <tr><td>Banc d'essai à 4 moteurs</td><td class="n">1 599 €</td></tr>
+      <tr><td>Robot complet</td><td class="n">4 152 €</td></tr>
+      <tr><td>Imprévus, 10 %</td><td class="n">575 €</td></tr>
+      <tr class="total"><td>Total TTC</td><td class="n">6 326 €</td></tr>
+      <tr><td>Demandé à la CVEC</td><td class="n">à définir</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="vision" class="gut">
+  <div class="wrap">
+    <h2>Ce que la subvention permettrait de voir</h2>
+    <figure class="art"><img src="v/campus.jpg" alt="Vue d'artiste du robot marchant sur un campus, retenu par une longe" loading="lazy"><figcaption>Vue d'artiste : le premier essai dehors, avec une longe de sécurité au cas où il tombe.</figcaption></figure>
+  </div>
+</section>
+
+<section id="calendrier" class="gut">
+  <div class="wrap">
+    <h2>Les étapes</h2>
+    <p class="slate">Seule la première est faite. Toutes les suivantes dépendent de la subvention.</p>
+    <ol class="when">
+      <li class="done"><div class="d">Septembre et octobre 2026</div><h3>L'étude</h3><p class="slate">Simulation, choix des moteurs, marche apprise</p></li>
+      <li><div class="d">Décembre 2026, si financé</div><h3>Un moteur au banc</h3><p class="slate">Vérifier en vrai ce que la simulation suppose</p></li>
+      <li><div class="d">Janvier 2027</div><h3>Une jambe</h3><p class="slate">Impression et montage de la première jambe</p></li>
+      <li><div class="d">Février 2027</div><h3>Debout sous portique</h3><p class="slate">Le robot complet, retenu par un portique</p></li>
+      <li><div class="d">Ensuite</div><h3>Les premiers pas</h3><p class="slate">La marche apprise passe sur le robot réel</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="voir" class="gut">
+  <div class="wrap cols">
+    <h2>Venir le voir</h2>
+    <div>
+      <p class="slate">À chaque étape (premier moteur, première jambe, robot debout), nous le présentons au FabLab, et c'est ouvert à tous. Vous pourrez aussi le voir aux journées portes ouvertes et à la Fête de la science.</p>
+      <p class="slate">FabLab de Sorbonne Université, campus Pierre et Marie Curie, 4 place Jussieu, 75005 Paris. Les nouvelles sont publiées sur l'Instagram et le Discord de Robotech, et sur <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/">LinkedIn</a>.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="gut">
+  <div class="wrap">
+    <img class="logo-su" src="v/logo-su.png" alt="Sorbonne Université"><img class="logo-rt" src="v/logo-robotech.png" alt="Robotech Sorbonne"><span>Projet Bipède, Robotech et FabLab de Sorbonne Université</span>
+    <span>bipede.matthieu-vinet.fr, <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/">notre post LinkedIn</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var v=document.getElementById('screen'),bs=document.querySelectorAll('#choices button');
+  bs.forEach(function(b){b.addEventListener('click',function(){
+    bs.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    v.src=b.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});
+  })});
+})();
+</script>
+
+</body>
+</html>
