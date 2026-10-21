@@ -37,13 +37,14 @@ p{margin:0 0 14px;max-width:62ch}
 :focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 
 /* En-tête */
-header.top{padding-block:22px}
-header.top .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
-.brand{font-weight:700;font-stretch:125%;font-size:18px;letter-spacing:.01em;text-decoration:none;color:var(--ink)}
-header.top nav{display:flex;gap:22px;flex-wrap:wrap;font-size:15px}
+header.top{padding-block:26px;border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;font-stretch:125%;font-size:24px;letter-spacing:.01em;text-decoration:none;color:var(--ink)}
+header.top nav{display:flex;gap:24px;flex-wrap:wrap;font-size:16px}
 header.top nav a{color:var(--slate);text-decoration:none}
 header.top nav a:hover{color:var(--ink)}
 @media (max-width:700px){header.top nav{display:none}}
+@media (max-width:520px){.logo-su{height:34px}.logo-rt{height:44px}.brand{font-size:20px}.brandrow{gap:14px}}
 
 /* Accueil */
 .hero{padding-block:clamp(40px,7vw,90px) 28px}
@@ -113,10 +114,10 @@ tr.total td{font-weight:600;color:var(--ink);border-bottom:2px solid var(--ink)}
 
 footer{border-top:1px solid var(--line);padding-block:36px;font-size:15px;color:var(--slate)}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.brandrow{display:flex;align-items:center;gap:18px}
-.logo-su{height:34px;width:auto;display:block}
+.brandrow{display:flex;align-items:center;gap:24px}
+.logo-su{height:46px;width:auto;display:block}
 footer .logo-su{height:40px}
-.logo-rt{height:42px;width:auto;display:block}
+.logo-rt{height:58px;width:auto;display:block}
 footer .logo-rt{height:52px}
 footer .wrap>img+img{margin-left:-4px}
 .art{margin:36px 0 0}
