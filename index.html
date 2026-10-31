@@ -81,7 +81,7 @@ section{padding-block:clamp(56px,8vw,100px);border-top:1px solid var(--line)}
 .choices button[aria-pressed="true"]{background:var(--white);border-color:var(--blue);box-shadow:0 0 0 1px var(--blue)}
 .choices button[aria-pressed="true"] img,.choices button:hover img{filter:none}
 .choices button[aria-pressed="true"] b{color:var(--blue)}
-.choices button .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--blue)}
+.choices button .bar{position:absolute;left:0;bottom:0;height:3px;width:100%;transform:scaleX(0);transform-origin:left;background:var(--blue);will-change:transform}
 .choices button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .screen .tag{position:absolute;left:12px;top:12px;background:rgba(26,35,41,.78);color:#fff;font-size:14px;font-weight:600;padding:6px 10px;pointer-events:none}
 @media (max-width:420px){.choices button{grid-template-columns:84px 1fr}.choices button img{width:84px;height:47px}}
@@ -345,12 +345,15 @@ td.wait{color:var(--slate);font-style:italic}
       bs=[].slice.call(document.querySelectorAll('#choices button')),k=0,tour=true;
   function show(i){
     k=i;
-    bs.forEach(function(x,j){x.setAttribute('aria-pressed',j===i?'true':'false');x.querySelector('.bar').style.width='0'});
+    bs.forEach(function(x,j){x.setAttribute('aria-pressed',j===i?'true':'false');x.querySelector('.bar').style.transform='scaleX(0)'});
     tag.textContent=(i+1)+' / '+bs.length+' : '+bs[i].querySelector('b').textContent;
     v.src=bs[i].dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});
   }
   bs.forEach(function(b,i){b.addEventListener('click',function(){tour=false;v.loop=true;show(i)})});
-  v.addEventListener('timeupdate',function(){if(v.duration)bs[k].querySelector('.bar').style.width=(100*v.currentTime/v.duration)+'%'});
+  (function tick(){
+    if(v.duration&&isFinite(v.duration))bs[k].querySelector('.bar').style.transform='scaleX('+(v.currentTime/v.duration)+')';
+    requestAnimationFrame(tick);
+  })();
   v.addEventListener('ended',function(){if(tour)show((k+1)%bs.length)});
 })();
 </script>
