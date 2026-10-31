@@ -135,6 +135,9 @@ a.person:hover h3{color:var(--blue)}
 .ask .facts span{color:rgba(244,246,246,.75)}
 .ask .go{display:inline-block;margin-top:32px;color:var(--paper);font-weight:600}
 @media (max-width:760px){.ask .facts{grid-template-columns:1fr}}
+.ask-row td{font-weight:600;color:var(--blue)!important}
+td.wait{color:var(--slate);font-style:italic}
+.ask a.inv{color:var(--paper);text-decoration:underline}
 .mock{background:var(--ink);color:var(--paper);font-size:13px;text-align:center;padding-block:6px}
 </style>
 </head>
@@ -182,8 +185,8 @@ a.person:hover h3{color:var(--blue)}
   <div class="wrap">
     <p class="big">Aujourd'hui, ce robot n'existe que dans un ordinateur. Sans la subvention CVEC, il y restera.</p>
     <div class="facts">
-      <div><b>Déjà fait</b><span>Simulation, choix des moteurs, marche apprise : un gros travail mené depuis septembre, sur notre temps libre et avec notre propre matériel.</span></div>
-      <div><b>Ce qui manque</b><span>6 326 € pour les moteurs, l'électronique, la batterie et l'impression.</span></div>
+      <div><b>Déjà fait</b><span>Simulation, choix des moteurs, marche apprise : un gros travail mené depuis septembre, sur notre temps libre et avec notre propre matériel. <a class="inv" href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/" target="_blank" rel="noopener">Notre premier post LinkedIn</a> le montre.</span></div>
+      <div><b>Ce que nous demandons</b><span>5 633 € à la CVEC, sur un budget de 6 276 € : moteurs, électronique, batterie, sécurité et matière d'impression.</span></div>
       <div><b>Ce que la CVEC rend possible</b><span>Un robot humanoïde construit par des étudiants au FabLab de Sorbonne Université, et qui y reste.</span></div>
     </div>
     <a class="go" href="#budget">Voir le budget détaillé</a>
@@ -202,7 +205,7 @@ a.person:hover h3{color:var(--blue)}
       </div>
       <div>
         <div class="screen"><video id="screen" src="v/fond.mp4" poster="v/hero.jpg" autoplay muted loop playsinline></video></div>
-        <p class="note">Ce sont des images brutes de nos simulations MuJoCo, sans montage ni effet.</p>
+        <p class="note">Ce sont des images brutes de nos simulations MuJoCo, sans montage ni effet. Nous les avons présentées dans <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/" target="_blank" rel="noopener">notre premier post LinkedIn</a>.</p>
       </div>
     </div>
   </div>
@@ -223,6 +226,7 @@ a.person:hover h3{color:var(--blue)}
         <tr><td>Axes par jambe</td><td>5 en simulation aujourd'hui, 6 sur le robot fabriqué</td></tr>
         <tr><td>Moteurs</td><td>12 moteurs RobStride (RS02, RS03, RS04, RS05)</td></tr>
         <tr><td>Structure</td><td>Pièces imprimées en PA6-CF au FabLab</td></tr>
+        <tr><td>Sécurité</td><td>Arrêt d'urgence et coupe-batterie, premiers essais sous portique avec une longe</td></tr>
         <tr><td>Calcul embarqué</td><td>NVIDIA Jetson</td></tr>
         <tr><td>Apprentissage</td><td>Par renforcement (PPO), 4 096 robots simulés en parallèle</td></tr>
         <tr><td>Fréquence de décision</td><td>50 fois par seconde</td></tr>
@@ -251,9 +255,9 @@ a.person:hover h3{color:var(--blue)}
     <h2>Qui on est</h2>
     <p class="slate">Trois élèves ingénieurs en dernière année de la spécialité robotique de Polytech Sorbonne, membres de Robotech, l'association de robotique de Sorbonne Université.</p>
     <div class="team" style="margin-top:28px">
-      <a class="person" href="https://matthieu-vinet.fr" target="_blank" rel="noopener"><img class="face" src="v/matthieu.jpg" alt="Matthieu Vinet" loading="lazy"><h3>Matthieu Vinet</h3><p class="slate">Rôle à préciser</p></a>
-      <a class="person" href="https://www.linkedin.com/in/maxime-bondil/" target="_blank" rel="noopener"><img class="face" src="v/maxime.jpg" alt="Maxime Bondil" loading="lazy"><h3>Maxime Bondil</h3><p class="slate">Rôle à préciser</p></a>
-      <a class="person" href="https://www.linkedin.com/in/nicolas-durand-robotique/" target="_blank" rel="noopener"><img class="face" src="v/nicolas.jpg" alt="Nicolas Durand" loading="lazy"><h3>Nicolas Durand</h3><p class="slate">Rôle à préciser</p></a>
+      <a class="person" href="https://matthieu-vinet.fr" target="_blank" rel="noopener"><img class="face" src="v/matthieu.jpg" alt="Matthieu Vinet" loading="lazy"><h3>Matthieu Vinet</h3></a>
+      <a class="person" href="https://www.linkedin.com/in/maxime-bondil/" target="_blank" rel="noopener"><img class="face" src="v/maxime.jpg" alt="Maxime Bondil" loading="lazy"><h3>Maxime Bondil</h3></a>
+      <a class="person" href="https://www.linkedin.com/in/nicolas-durand-robotique/" target="_blank" rel="noopener"><img class="face" src="v/nicolas.jpg" alt="Nicolas Durand" loading="lazy"><h3>Nicolas Durand</h3></a>
     </div>
   </div>
 </section>
@@ -263,14 +267,23 @@ a.person:hover h3{color:var(--blue)}
     <div>
       <h2>Sans la CVEC, pas de robot</h2>
       <p class="slate">Depuis septembre, nous avons fait tout ce qui pouvait se faire sans argent : l'étude, la simulation, l'apprentissage de la marche. Pour la suite, il faut acheter des pièces, et nous ne pouvons pas les financer seuls : sans la CVEC, le robot reste dans l'ordinateur.</p>
-      <p class="slate">Près de la moitié du budget, 3 052 €, va aux douze moteurs, parce qu'ils ne s'impriment pas. Le reste couvre l'électronique de commande et de sécurité, la batterie et la matière d'impression.</p>
+      <p class="slate">Plus de la moitié du budget, 3 000 €, va aux douze moteurs, parce qu'ils ne s'impriment pas. Chaque prix vient d'un fournisseur réel, port, douane et TVA compris.</p>
+      <p class="slate">Le FabLab et Polytech Sorbonne pourront compléter : leur participation est en cours de discussion.</p>
     </div>
     <table aria-label="Budget">
-      <tr><td>Banc d'essai à 4 moteurs</td><td class="n">1 599 €</td></tr>
-      <tr><td>Robot complet</td><td class="n">4 152 €</td></tr>
-      <tr><td>Imprévus, 10 %</td><td class="n">575 €</td></tr>
-      <tr class="total"><td>Total TTC</td><td class="n">6 326 €</td></tr>
-      <tr><td>Demandé à la CVEC</td><td class="n">à définir</td></tr>
+      <tr><td>12 moteurs RobStride, port et douane compris</td><td class="n">3 000 €</td></tr>
+      <tr><td>Énergie : batterie 48 V, alimentation</td><td class="n">761 €</td></tr>
+      <tr><td>Commande : Jetson, bus CAN, centrale inertielle, manette</td><td class="n">673 €</td></tr>
+      <tr><td>Structure : matière d'impression, roulements, pièces</td><td class="n">541 €</td></tr>
+      <tr><td>Câblage et quincaillerie</td><td class="n">289 €</td></tr>
+      <tr><td>Banc d'essai des moteurs</td><td class="n">212 €</td></tr>
+      <tr><td>Sécurité : arrêt d'urgence, coupe-batterie, fusibles</td><td class="n">170 €</td></tr>
+      <tr><td>Divers</td><td class="n">60 €</td></tr>
+      <tr><td>Imprévus, 10 %</td><td class="n">571 €</td></tr>
+      <tr class="total"><td>Total TTC livré</td><td class="n">6 276 €</td></tr>
+      <tr class="ask-row"><td>Demandé à la CVEC</td><td class="n">5 633 €</td></tr>
+      <tr><td>Cofinancement FabLab de Sorbonne Université</td><td class="n wait">en attente</td></tr>
+      <tr><td>Cofinancement Polytech Sorbonne</td><td class="n wait">en attente</td></tr>
     </table>
   </div>
 </section>
@@ -301,7 +314,7 @@ a.person:hover h3{color:var(--blue)}
     <h2>Venir le voir</h2>
     <div>
       <p class="slate">À chaque étape (premier moteur, première jambe, robot debout), nous le présentons au FabLab, et c'est ouvert à tous. Vous pourrez aussi le voir aux journées portes ouvertes et à la Fête de la science.</p>
-      <p class="slate">FabLab de Sorbonne Université, campus Pierre et Marie Curie, 4 place Jussieu, 75005 Paris. Les nouvelles sont publiées sur l'Instagram et le Discord de Robotech, et sur <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/">LinkedIn</a>.</p>
+      <p class="slate">FabLab de Sorbonne Université, campus Pierre et Marie Curie, 4 place Jussieu, 75005 Paris. Les nouvelles sont publiées sur l'Instagram et le Discord de Robotech, et sur <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/" target="_blank" rel="noopener">LinkedIn</a>.</p>
     </div>
   </div>
 </section>
@@ -309,7 +322,7 @@ a.person:hover h3{color:var(--blue)}
 <footer class="gut">
   <div class="wrap">
     <img class="logo-su" src="v/logo-su.png" alt="Sorbonne Université"><img class="logo-rt" src="v/logo-robotech.png" alt="Robotech Sorbonne"><span>Projet Bipède, Robotech et FabLab de Sorbonne Université</span>
-    <span>bipede.matthieu-vinet.fr, <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/">notre post LinkedIn</a></span>
+    <span>bipede.matthieu-vinet.fr, <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/" target="_blank" rel="noopener">notre post LinkedIn</a></span>
   </div>
 </footer>
 
