@@ -72,12 +72,19 @@ section{padding-block:clamp(56px,8vw,100px);border-top:1px solid var(--line)}
 /* Résultats : vidéo principale et choix */
 .viewer{display:grid;grid-template-columns:4fr 8fr;gap:40px;align-items:start}
 .viewer>*{min-width:0}
-.choices{display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.choices button{all:unset;cursor:pointer;display:block;padding:16px 0;border-bottom:1px solid var(--line)}
-.choices button b{display:block;font-size:19px;font-weight:600}
-.choices button span{display:block;color:var(--slate);font-size:15px;margin-top:2px}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choices button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:112px 1fr;gap:14px;align-items:center;padding:10px;border:1px solid var(--line);background:transparent;position:relative;overflow:hidden;transition:background .2s,border-color .2s}
+.choices button:hover{background:var(--white)}
+.choices button img{width:112px;height:63px;object-fit:cover;display:block;filter:grayscale(1) brightness(.95);transition:filter .2s}
+.choices button b{display:block;font-size:18px;font-weight:600;line-height:1.25}
+.choices button span{display:block;color:var(--slate);font-size:14.5px;margin-top:3px;line-height:1.45}
+.choices button[aria-pressed="true"]{background:var(--white);border-color:var(--blue);box-shadow:0 0 0 1px var(--blue)}
+.choices button[aria-pressed="true"] img,.choices button:hover img{filter:none}
 .choices button[aria-pressed="true"] b{color:var(--blue)}
+.choices button .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--blue)}
 .choices button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.screen .tag{position:absolute;left:12px;top:12px;background:rgba(26,35,41,.78);color:#fff;font-size:14px;font-weight:600;padding:6px 10px;pointer-events:none}
+@media (max-width:420px){.choices button{grid-template-columns:84px 1fr}.choices button img{width:84px;height:47px}}
 .screen{background:#20272c;border:1px solid var(--line);aspect-ratio:16/9;max-width:100%;position:relative;overflow:hidden}
 .screen video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .note{font-size:14px;color:var(--slate);margin-top:10px}
@@ -138,6 +145,11 @@ a.person:hover h3{color:var(--blue)}
 .ask-row td{font-weight:600;color:var(--blue)!important}
 td.wait{color:var(--slate);font-style:italic}
 .ask a.inv{color:var(--paper);text-decoration:underline}
+.budget td:first-child{width:auto}
+.budget td.n{white-space:nowrap;padding-left:16px;width:1%}
+.budget td.wait{white-space:normal;min-width:7em}
+@media (max-width:820px){.viewer>div:last-child{order:-1}}
+@media (max-width:700px){.team{grid-template-columns:repeat(3,1fr);gap:12px}.team h3{font-size:15px}.team .face{margin-bottom:8px}}
 .mock{background:var(--ink);color:var(--paper);font-size:13px;text-align:center;padding-block:6px}
 </style>
 </head>
@@ -161,23 +173,23 @@ td.wait{color:var(--slate);font-style:italic}
 <div class="hero gut">
   <div class="wrap">
     <h1>Avant son premier pas, il est tombé des milliers de fois</h1>
-    <p class="lede">Bipède, ce sont les jambes d'un robot humanoïde : 12 moteurs, 80 cm, 17 kg. Robotech, l'association de robotique de Sorbonne Université, l'a fait marcher en simulation. Il reste à le construire avec le FabLab de l'université, et cette étape n'aura lieu que si la CVEC la finance.</p>
+    <p class="lede">Bipède, ce sont les jambes d'un robot humanoïde : 12 moteurs, 80 cm, 17 kg. Robotech, l'association de robotique de Sorbonne Université, l'a fait marcher en simulation. Il reste à le construire avec le FabLab de l'université, et cette étape n'aura lieu que si la CVEC la finance.</p>
   </div>
 </div>
 
 <div class="plate gut">
   <div class="wrap">
     <div class="strip" role="img" aria-label="Huit images successives du robot en train de marcher, à 0,125 seconde d'intervalle">
-      <figure style="animation-delay:0s"><div class="img" style="background-position:0% 0"></div><figcaption>0,000 s</figcaption></figure>
-      <figure style="animation-delay:.08s"><div class="img" style="background-position:14.2857% 0"></div><figcaption>0,125 s</figcaption></figure>
-      <figure style="animation-delay:.16s"><div class="img" style="background-position:28.5714% 0"></div><figcaption>0,250 s</figcaption></figure>
-      <figure style="animation-delay:.24s"><div class="img" style="background-position:42.8571% 0"></div><figcaption>0,375 s</figcaption></figure>
-      <figure style="animation-delay:.32s"><div class="img" style="background-position:57.1429% 0"></div><figcaption>0,500 s</figcaption></figure>
-      <figure style="animation-delay:.40s"><div class="img" style="background-position:71.4286% 0"></div><figcaption>0,625 s</figcaption></figure>
-      <figure style="animation-delay:.48s"><div class="img" style="background-position:85.7143% 0"></div><figcaption>0,750 s</figcaption></figure>
-      <figure style="animation-delay:.56s"><div class="img" style="background-position:100% 0"></div><figcaption>0,875 s</figcaption></figure>
+      <figure style="animation-delay:0s"><div class="img" style="background-position:0% 0"></div><figcaption>0,000 s</figcaption></figure>
+      <figure style="animation-delay:.08s"><div class="img" style="background-position:14.2857% 0"></div><figcaption>0,125 s</figcaption></figure>
+      <figure style="animation-delay:.16s"><div class="img" style="background-position:28.5714% 0"></div><figcaption>0,250 s</figcaption></figure>
+      <figure style="animation-delay:.24s"><div class="img" style="background-position:42.8571% 0"></div><figcaption>0,375 s</figcaption></figure>
+      <figure style="animation-delay:.32s"><div class="img" style="background-position:57.1429% 0"></div><figcaption>0,500 s</figcaption></figure>
+      <figure style="animation-delay:.40s"><div class="img" style="background-position:71.4286% 0"></div><figcaption>0,625 s</figcaption></figure>
+      <figure style="animation-delay:.48s"><div class="img" style="background-position:85.7143% 0"></div><figcaption>0,750 s</figcaption></figure>
+      <figure style="animation-delay:.56s"><div class="img" style="background-position:100% 0"></div><figcaption>0,875 s</figcaption></figure>
     </div>
-    <div class="legend"><span>Marche tout droit à 0,5 m/s, en simulation, essai 60 du 18 octobre 2026.</span><span>Images non retouchées.</span></div>
+    <div class="legend"><span>Marche tout droit à 0,5 m/s, en simulation, essai 60 du 18 octobre 2026.</span><span>Images non retouchées.</span></div>
   </div>
 </div>
 
@@ -186,7 +198,7 @@ td.wait{color:var(--slate);font-style:italic}
     <p class="big">Aujourd'hui, ce robot n'existe que dans un ordinateur. Sans la subvention CVEC, il y restera.</p>
     <div class="facts">
       <div><b>Déjà fait</b><span>Simulation, choix des moteurs, marche apprise : un gros travail mené depuis septembre, sur notre temps libre et avec notre propre matériel. <a class="inv" href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/" target="_blank" rel="noopener">Notre premier post LinkedIn</a> le montre.</span></div>
-      <div><b>Ce que nous demandons</b><span>5 633 € à la CVEC pour acheter les composants : moteurs, électronique, batterie, sécurité. Le FabLab et Polytech Sorbonne apportent en plus machines, locaux, formations et licences de logiciels.</span></div>
+      <div><b>Ce que nous demandons</b><span>5 633 € à la CVEC pour acheter les composants : moteurs, électronique, batterie, sécurité. Le FabLab et Polytech Sorbonne apportent en plus machines, locaux, formations et licences de logiciels.</span></div>
       <div><b>Ce que la CVEC rend possible</b><span>Un robot humanoïde construit par des étudiants au FabLab de Sorbonne Université, et qui y reste.</span></div>
     </div>
     <a class="go" href="#budget">Voir le budget détaillé</a>
@@ -198,13 +210,13 @@ td.wait{color:var(--slate);font-style:italic}
     <h2>Une semaine d'entraînement plus tard</h2>
     <div class="viewer">
       <div class="choices" id="choices">
-        <button type="button" aria-pressed="true" data-src="v/fond.mp4"><b>Marcher droit</b><span>Ses deux pieds font enfin des pas de même longueur. Il a fallu 58 essais pour y arriver.</span></button>
-        <button type="button" aria-pressed="false" data-src="v/poussees.mp4"><b>Encaisser une poussée</b><span>On le bouscule à 60 N, de face ou de côté, et il reste debout. L'objectif est 80 N.</span></button>
-        <button type="button" aria-pressed="false" data-src="v/manette.mp4"><b>Obéir à la manette</b><span>Avancer, se décaler, faire demi-tour sur place : un seul réseau de neurones fait tout.</span></button>
-        <button type="button" aria-pressed="false" data-src="v/progression.mp4"><b>Progresser</b><span>Du premier pas hésitant au pas régulier, en quatre jours.</span></button>
+        <button type="button" aria-pressed="true" data-src="v/fond.mp4"><img src="v/thumb-fond.jpg" alt="" loading="lazy"><div><b>Marcher droit</b><span>Ses deux pieds font enfin des pas de même longueur. Il a fallu 58 essais pour y arriver.</span></div><i class="bar"></i></button>
+        <button type="button" aria-pressed="false" data-src="v/poussees.mp4"><img src="v/thumb-poussees.jpg" alt="" loading="lazy"><div><b>Encaisser une poussée</b><span>On le bouscule à 60 N, de face ou de côté, et il reste debout. L'objectif est 80 N.</span></div><i class="bar"></i></button>
+        <button type="button" aria-pressed="false" data-src="v/manette.mp4"><img src="v/thumb-manette.jpg" alt="" loading="lazy"><div><b>Obéir à la manette</b><span>Avancer, se décaler, faire demi-tour sur place : un seul réseau de neurones fait tout.</span></div><i class="bar"></i></button>
+        <button type="button" aria-pressed="false" data-src="v/progression.mp4"><img src="v/thumb-progression.jpg" alt="" loading="lazy"><div><b>Progresser</b><span>Du premier pas hésitant au pas régulier, en quatre jours.</span></div><i class="bar"></i></button>
       </div>
       <div>
-        <div class="screen"><video id="screen" src="v/fond.mp4" poster="v/hero.jpg" autoplay muted loop playsinline></video></div>
+        <div class="screen"><video id="screen" src="v/fond.mp4" poster="v/hero.jpg" autoplay muted playsinline></video><span class="tag" id="screentag">1 / 4 : Marcher droit</span></div>
         <p class="note">Ce sont des images brutes de nos simulations MuJoCo, sans montage ni effet. Nous les avons présentées dans <a href="https://www.linkedin.com/feed/update/urn:li:activity:7517575087672393728/" target="_blank" rel="noopener">notre premier post LinkedIn</a>.</p>
       </div>
     </div>
@@ -221,14 +233,14 @@ td.wait{color:var(--slate);font-style:italic}
       <table aria-label="Fiche technique">
         <tr><td>Objectif 1</td><td>Rester stable debout</td></tr>
         <tr><td>Objectif 2</td><td>Marcher en suivant une manette</td></tr>
-        <tr><td>Objectif 3</td><td>Encaisser une poussée de 80 N sans tomber</td></tr>
-        <tr><td>Taille et masse</td><td>Environ 80 cm, 17 kg</td></tr>
+        <tr><td>Objectif 3</td><td>Encaisser une poussée de 80 N sans tomber</td></tr>
+        <tr><td>Taille et masse</td><td>Environ 80 cm, 17 kg</td></tr>
         <tr><td>Axes par jambe</td><td>5 en simulation aujourd'hui, 6 sur le robot fabriqué</td></tr>
         <tr><td>Moteurs</td><td>12 moteurs RobStride (RS02, RS03, RS04, RS05)</td></tr>
         <tr><td>Structure</td><td>Pièces imprimées en PA6-CF au FabLab</td></tr>
         <tr><td>Sécurité</td><td>Arrêt d'urgence et coupe-batterie, premiers essais sous portique avec une longe</td></tr>
         <tr><td>Calcul embarqué</td><td>NVIDIA Jetson</td></tr>
-        <tr><td>Apprentissage</td><td>Par renforcement (PPO), 4 096 robots simulés en parallèle</td></tr>
+        <tr><td>Apprentissage</td><td>Par renforcement (PPO), 4 096 robots simulés en parallèle</td></tr>
         <tr><td>Fréquence de décision</td><td>50 fois par seconde</td></tr>
       </table>
     </div>
@@ -267,21 +279,21 @@ td.wait{color:var(--slate);font-style:italic}
     <div>
       <h2>Sans la CVEC, pas de robot</h2>
       <p class="slate">Depuis septembre, nous avons fait tout ce qui pouvait se faire sans argent : l'étude, la simulation, l'apprentissage de la marche. Pour la suite, il faut acheter des pièces, et nous ne pouvons pas les financer seuls : sans la CVEC, le robot reste dans l'ordinateur.</p>
-      <p class="slate">Plus de la moitié du coût des composants, 3 000 €, va aux douze moteurs, parce qu'ils ne s'impriment pas. Chaque prix vient d'un fournisseur réel, port, douane et TVA compris.</p>
+      <p class="slate">Plus de la moitié du coût des composants, 3 000 €, va aux douze moteurs, parce qu'ils ne s'impriment pas. Chaque prix vient d'un fournisseur réel, port, douane et TVA compris.</p>
       <p class="slate">Ce tableau ne compte que les pièces à acheter. Le budget complet du projet comprend aussi l'apport du FabLab et de Polytech Sorbonne : machines, temps machine, locaux, formations, matière d'impression et licences de logiciels comme SolidWorks. Il est en cours de chiffrage avec eux.</p>
     </div>
-    <table aria-label="Budget">
-      <tr><td>12 moteurs RobStride, port et douane compris</td><td class="n">3 000 €</td></tr>
-      <tr><td>Énergie : batterie 48 V, alimentation</td><td class="n">761 €</td></tr>
-      <tr><td>Commande : Jetson, bus CAN, centrale inertielle, manette</td><td class="n">673 €</td></tr>
-      <tr><td>Structure : matière d'impression, roulements, pièces</td><td class="n">541 €</td></tr>
-      <tr><td>Câblage et quincaillerie</td><td class="n">289 €</td></tr>
-      <tr><td>Banc d'essai des moteurs</td><td class="n">212 €</td></tr>
-      <tr><td>Sécurité : arrêt d'urgence, coupe-batterie, fusibles</td><td class="n">170 €</td></tr>
-      <tr><td>Divers</td><td class="n">60 €</td></tr>
-      <tr><td>Imprévus, 10 %</td><td class="n">571 €</td></tr>
-      <tr class="total"><td>Coût des composants, TTC livré</td><td class="n">6 276 €</td></tr>
-      <tr class="ask-row"><td>Demandé à la CVEC</td><td class="n">5 633 €</td></tr>
+    <table class="budget" aria-label="Budget">
+      <tr><td>12 moteurs RobStride, port et douane compris</td><td class="n">3 000 €</td></tr>
+      <tr><td>Énergie : batterie 48 V, alimentation</td><td class="n">761 €</td></tr>
+      <tr><td>Commande : Jetson, bus CAN, centrale inertielle, manette</td><td class="n">673 €</td></tr>
+      <tr><td>Structure : matière d'impression, roulements, pièces</td><td class="n">541 €</td></tr>
+      <tr><td>Câblage et quincaillerie</td><td class="n">289 €</td></tr>
+      <tr><td>Banc d'essai des moteurs</td><td class="n">212 €</td></tr>
+      <tr><td>Sécurité : arrêt d'urgence, coupe-batterie, fusibles</td><td class="n">170 €</td></tr>
+      <tr><td>Divers</td><td class="n">60 €</td></tr>
+      <tr><td>Imprévus, 10 %</td><td class="n">571 €</td></tr>
+      <tr class="total"><td>Coût des composants, TTC livré</td><td class="n">6 276 €</td></tr>
+      <tr class="ask-row"><td>Demandé à la CVEC</td><td class="n">5 633 €</td></tr>
       <tr><td>Apport du FabLab de Sorbonne Université (machines, locaux, formations, matière)</td><td class="n wait">en cours de chiffrage</td></tr>
       <tr><td>Apport de Polytech Sorbonne (licences de logiciels comme SolidWorks)</td><td class="n wait">en cours de chiffrage</td></tr>
       <tr class="total"><td>Budget total du projet</td><td class="n wait">en cours de chiffrage</td></tr>
@@ -329,11 +341,17 @@ td.wait{color:var(--slate);font-style:italic}
 
 <script>
 (function(){
-  var v=document.getElementById('screen'),bs=document.querySelectorAll('#choices button');
-  bs.forEach(function(b){b.addEventListener('click',function(){
-    bs.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
-    v.src=b.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});
-  })});
+  var v=document.getElementById('screen'),tag=document.getElementById('screentag'),
+      bs=[].slice.call(document.querySelectorAll('#choices button')),k=0,tour=true;
+  function show(i){
+    k=i;
+    bs.forEach(function(x,j){x.setAttribute('aria-pressed',j===i?'true':'false');x.querySelector('.bar').style.width='0'});
+    tag.textContent=(i+1)+' / '+bs.length+' : '+bs[i].querySelector('b').textContent;
+    v.src=bs[i].dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});
+  }
+  bs.forEach(function(b,i){b.addEventListener('click',function(){tour=false;v.loop=true;show(i)})});
+  v.addEventListener('timeupdate',function(){if(v.duration)bs[k].querySelector('.bar').style.width=(100*v.currentTime/v.duration)+'%'});
+  v.addEventListener('ended',function(){if(tour)show((k+1)%bs.length)});
 })();
 </script>
 
